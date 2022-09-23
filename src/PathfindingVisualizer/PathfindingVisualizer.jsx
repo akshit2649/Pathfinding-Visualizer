@@ -3,12 +3,12 @@ import './PathfindingVisualizer.css';
 import Node from './Node/Node';
 import { dijkstra } from '../algorithms/dijkstra';
 
+//Inital setting
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
-
-//Inital setting of the grid
+const grid = [];
 
 const createNode = (row, col) => {
   return {
@@ -23,7 +23,6 @@ const createNode = (row, col) => {
   };
 };
 
-const grid = [];
 for (let row = 1; row <= 15; row++) {
   const currentRow = [];
   for (let col = 1; col <= 50; col++) {

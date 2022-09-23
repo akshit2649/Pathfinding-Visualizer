@@ -1,6 +1,7 @@
 import React from 'react';
 import './PathfindingVisualizer.css';
 import Node from './Node/Node';
+import { dijkstra } from '../algorithms/dijkstra';
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -32,17 +33,26 @@ for (let row = 1; row <= 15; row++) {
 }
 
 const PathfindingVisualizer = () => {
+  const visualizeDijkstra = () => {
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNode = dijkstra(grid, startNode, finishNode);
+  };
+
   return (
-    <div className="grid">
-      {grid.map((row, rowIdx) => (
-        <div key={rowIdx}>
-          {row.map((node, nodeIdx) => {
-            const { isStart, isFinish } = node;
-            return <Node key={nodeIdx} isStart={isStart} isFinish={isFinish} />;
-          })}
-        </div>
-      ))}
-    </div>
+    <>
+      <button onClick={visualizeDijkstra}>Visualize Dijkstar's algorithm</button>
+      <div className="grid">
+        {grid.map((row, rowIdx) => (
+          <div key={rowIdx}>
+            {row.map((node, nodeIdx) => {
+              const { isStart, isFinish } = node;
+              return <Node key={nodeIdx} isStart={isStart} isFinish={isFinish} />;
+            })}
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

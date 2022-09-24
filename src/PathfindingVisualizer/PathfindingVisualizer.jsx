@@ -17,7 +17,6 @@ const createNode = (row, col) => {
     isFinish: FINISH_NODE_ROW === row && FINISH_NODE_COL === col,
     distance: Infinity,
     isVisited: false,
-    isVisitedAnimate: false,
     isWall: false,
     previousNode: null,
   };
@@ -72,14 +71,9 @@ const PathfindingVisualizer = () => {
     for (let i = 0; i < visitedNodeInOrder.length; i++) {
       setTimeout(() => {
         const node = visitedNodeInOrder[i];
-        const newGrid = grid.slice();
-        const newNode = {
-          ...node,
-          isVisitedAnimate: true,
-        };
-        newGrid[node.row][node.col] = newNode;
-        setGrid(newGrid);
-      }, 25 * i);
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node node-visited';
+      }, 7 * i);
     }
   };
 
@@ -98,7 +92,7 @@ const PathfindingVisualizer = () => {
         {grid.map((row, rowIdx) => (
           <div key={rowIdx}>
             {row.map((node, nodeIdx) => {
-              const { isStart, isFinish, isWall, row, col, isVisitedAnimate } = node;
+              const { isStart, isFinish, isWall, row, col } = node;
               return (
                 <Node
                   row={row}
@@ -107,7 +101,6 @@ const PathfindingVisualizer = () => {
                   isStart={isStart}
                   isFinish={isFinish}
                   isWall={isWall}
-                  isVisited={isVisitedAnimate}
                   mouseDownHandler={mouseDownHandler}
                   mouseUpHandler={mouseUpHandler}
                   mouseEnterHandler={mouseEnterHandler}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './PathfindingVisualizer.css';
 import Node from './Node/Node';
-import { dijkstra } from '../algorithms/dijkstra';
+import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstra';
 
 //Inital setting
 const START_NODE_ROW = 10;
@@ -23,19 +23,24 @@ const createNode = (row, col) => {
   };
 };
 
-for (let row = 1; row <= 15; row++) {
+//Initializing the grid
+for (let row = 0; row < 20; row++) {
   const currentRow = [];
-  for (let col = 1; col <= 50; col++) {
+  for (let col = 0; col < 50; col++) {
     currentRow.push(createNode(row, col));
   }
   grid.push(currentRow);
 }
 
+//JSX rendering
 const PathfindingVisualizer = () => {
   const visualizeDijkstra = () => {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNode = dijkstra(grid, startNode, finishNode);
+    const visitedNodeInOrder = dijkstra(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    console.log(nodesInShortestPathOrder);
+    console.log(visitedNodeInOrder);
   };
 
   return (
@@ -45,8 +50,17 @@ const PathfindingVisualizer = () => {
         {grid.map((row, rowIdx) => (
           <div key={rowIdx}>
             {row.map((node, nodeIdx) => {
-              const { isStart, isFinish } = node;
-              return <Node key={nodeIdx} isStart={isStart} isFinish={isFinish} />;
+              const { isStart, isFinish, isWall, row, col } = node;
+              return (
+                <Node
+                  row={row}
+                  col={col}
+                  key={nodeIdx}
+                  isStart={isStart}
+                  isFinish={isFinish}
+                  isWall={isWall}
+                />
+              );
             })}
           </div>
         ))}
